@@ -2,7 +2,7 @@ import React from "react"
 import { usePublications } from "../hooks/usePublications"
 
 export const PublicationsList = () => {
-    const { publications, loading, error, fetchRecent, fetchAll } = usePublications()
+    const { publications, loading, error, fetchRecent, fetchAll, fetchOld } = usePublications()
 
     if (loading) return <div className="text-center py-8 text-blue-500 font-semibold">Cargando...</div>
     if (error) return <div className="text-center py-8 text-red-500 font-semibold">{error}</div>
@@ -21,6 +21,12 @@ export const PublicationsList = () => {
                     className="bg-gray-700 px-4 py-2 text-white rounded hover:bg-purple-900 transition"
                 >
                     Publicaciones recientes
+                </button>
+                <button
+                    onClick={fetchOld}
+                    className="bg-gray-700 px-4 py-2 text-white rounded hover:bg-purple-900 transition"
+                >
+                    Publicaciones antiguas
                 </button>
             </div>
             <div className="flex flex-wrap gap-6 justify-center">

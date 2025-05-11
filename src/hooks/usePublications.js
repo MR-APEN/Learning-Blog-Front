@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getPublications, recentPublications } from "../services/Api"
+import { getPublications, recentPublications, oldPublications } from "../services/Api"
 import { toast } from "react-hot-toast"
 
 export const usePublications = () => {
@@ -35,9 +35,23 @@ export const usePublications = () => {
         setLoading(false)
     }
 
+    const fetchOld = async () => {
+        setLoading(true)
+        const res = await oldPublications()
+        if (res.error) {
+            setError("Error al cargar publicaciones antiguas")
+            toast.error("Error al cargar publicaciones antiguas")
+        } else {
+            setPublications(res.data.publications)
+            toast.success("Publicaciones antiguas cargadas")
+            setError(null)
+        }
+        setLoading(false)
+    }
+
     useEffect(() => {
         fetchAll()
     }, [])
 
-    return { publications, loading, error, fetchRecent, fetchAll }
+    return { publications, loading, error, fetchRecent, fetchAll, fetchOld }
 }

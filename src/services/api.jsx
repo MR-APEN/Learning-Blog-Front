@@ -27,3 +27,14 @@ export const recentPublications = async () => {
         }
     }
 }
+
+export const oldPublications = async () => {
+    try {
+        return await apiBlog.get("/publication/old")
+    } catch (e) {
+        return {
+            error: true,
+            e: e
+        }
+    }
+}
