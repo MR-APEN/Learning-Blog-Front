@@ -16,3 +16,36 @@ export const getPublications = async () => {
         }
     }
 }
+
+export const recentPublications = async () => {
+    try {
+        return await apiBlog.get("/publication/recent")
+    } catch (e) {
+        return {
+            error: true,
+            e: e
+        }
+    }
+}
+
+export const oldPublications = async () => {
+    try {
+        return await apiBlog.get("/publication/old")
+    } catch (e) {
+        return {
+            error: true,
+            e: e
+        }
+    }
+}
+
+export const getPublicationsByCourse = async (name) => {
+    try {
+        return await apiBlog.get(`/publication/course/${encodeURIComponent(name)}`)
+    } catch (e) {
+        return {
+            error: true,
+            e: e
+        }
+    }
+}
