@@ -16,3 +16,14 @@ export const getPublications = async () => {
         }
     }
 }
+
+export const recentPublications = async () => {
+    try {
+        return await apiBlog.get("/publication/recent")
+    } catch (e) {
+        return {
+            error: true,
+            e: e
+        }
+    }
+}

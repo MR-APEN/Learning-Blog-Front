@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getPublications } from "../services/Api"
+import { getPublications, recentPublications } from "../services/Api"
 import { toast } from "react-hot-toast"
 
 export const usePublications = () => {
@@ -7,20 +7,37 @@ export const usePublications = () => {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const res = await getPublications()
-            if (res.error) {
-                setError("Error al cargar publicaciones")
-                toast.error("Error al cargar publicaciones")
-            } else {
-                setPublications(res.data.publications)
-                toast.success("Publicaciones cargadas correctamente")
-            }
-            setLoading(false)
+    const fetchAll = async () => {
+        setLoading(true)
+        const res = await getPublications()
+        if (res.error) {
+            setError("Error al cargar publicaciones")
+            toast.error("Error al cargar publicaciones")
+        } else {
+            setPublications(res.data.publications)
+            toast.success("Publicaciones cargadas correctamente")
+            setError(null)
         }
-        fetchData()
+        setLoading(false)
+    }
+
+    const fetchRecent = async () => {
+        setLoading(true)
+        const res = await recentPublications()
+        if (res.error) {
+            setError("Error al cargar publicaciones recientes")
+            toast.error("Error al cargar publicaciones recientes")
+        } else {
+            setPublications(res.data.publications)
+            toast.success("Publicaciones recientes cargadas")
+            setError(null)
+        }
+        setLoading(false)
+    }
+
+    useEffect(() => {
+        fetchAll()
     }, [])
 
-    return { publications, loading, error }
+    return { publications, loading, error, fetchRecent, fetchAll }
 }
