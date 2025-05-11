@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { usePublications } from "../hooks/usePublications"
+import { CommentsSection } from "./CommentsSection"
 
 export const PublicationsList = () => {
     const { publications, loading, error, fetchRecent, fetchAll, fetchOld, fetchByCourse } = usePublications()
@@ -63,6 +64,8 @@ export const PublicationsList = () => {
                         <p className="text-sm text-gray-500">
                             <span className="font-semibold">Curso:</span> {pub.course?.name || "Sin curso"}
                         </p>
+                        {/* Aquí se muestra la sección de comentarios */}
+                        <CommentsSection postId={pub._id} />
                     </div>
                 ))}
             </div>

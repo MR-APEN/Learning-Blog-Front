@@ -49,3 +49,25 @@ export const getPublicationsByCourse = async (name) => {
         }
     }
 }
+
+export const addComment = async (commentData) => {
+    try {
+        return await apiBlog.post("/comment/add", commentData)
+    } catch (e) {
+        return {
+            error: true,
+            e: e
+        }
+    }
+}
+
+export const getCommentsByPublication = async (postId) => {
+    try {
+        return await apiBlog.get(`/comment/publication/${postId}`)
+    } catch (e) {
+        return {
+            error: true,
+            e: e
+        }
+    }
+}
