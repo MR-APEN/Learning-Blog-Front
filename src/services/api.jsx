@@ -38,3 +38,14 @@ export const oldPublications = async () => {
         }
     }
 }
+
+export const getPublicationsByCourse = async (name) => {
+    try {
+        return await apiBlog.get(`/publication/course/${encodeURIComponent(name)}`)
+    } catch (e) {
+        return {
+            error: true,
+            e: e
+        }
+    }
+}

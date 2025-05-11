@@ -1,30 +1,53 @@
-import React from "react"
+import React, { useState } from "react"
 import { usePublications } from "../hooks/usePublications"
 
 export const PublicationsList = () => {
-    const { publications, loading, error, fetchRecent, fetchAll, fetchOld } = usePublications()
+    const { publications, loading, error, fetchRecent, fetchAll, fetchOld, fetchByCourse } = usePublications()
+    const [course, setCourse] = useState("")
+
+    const handleSearch = (e) => {
+        e.preventDefault()
+        if (course.trim() !== "") {
+            fetchByCourse(course)
+        }
+    }
 
     if (loading) return <div className="text-center py-8 text-blue-500 font-semibold">Cargando...</div>
     if (error) return <div className="text-center py-8 text-red-500 font-semibold">{error}</div>
 
     return (
         <div className="flex flex-col items-center mt-10">
+            <form onSubmit={handleSearch} className="mb-6 flex gap-2">
+                <input
+                    type="text"
+                    value={course}
+                    onChange={e => setCourse(e.target.value)}
+                    placeholder="Buscar por curso..."
+                    className="px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+                <button
+                    type="submit"
+                    className="px-4 py-2 bg-emerald-900 text-white rounded hover:bg-gray-500 transition"
+                >
+                    Buscar
+                </button>
+            </form>
             <div className="mb-8 flex gap-4">
                 <button
                     onClick={fetchAll}
-                    className="px-4 py-2 bg-gray-700 text-white rounded hover:bg-purple-900 transition"
+                    className="px-4 py-2 bg-emerald-900 text-white rounded hover:bg-gray-500 transition"
                 >
                     Todas las publicaciones
                 </button>
                 <button
                     onClick={fetchRecent}
-                    className="bg-gray-700 px-4 py-2 text-white rounded hover:bg-purple-900 transition"
+                    className="px-4 py-2 bg-emerald-900 text-white rounded hover:bg-gray-500 transition"
                 >
                     Publicaciones recientes
                 </button>
                 <button
                     onClick={fetchOld}
-                    className="bg-gray-700 px-4 py-2 text-white rounded hover:bg-purple-900 transition"
+                    className="px-4 py-2 bg-emerald-900 text-white rounded hover:bg-gray-500 transition"
                 >
                     Publicaciones antiguas
                 </button>

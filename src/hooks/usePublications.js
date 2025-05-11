@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getPublications, recentPublications, oldPublications } from "../services/Api"
+import { getPublications, recentPublications, oldPublications, getPublicationsByCourse } from "../services/Api"
 import { toast } from "react-hot-toast"
 
 export const usePublications = () => {
@@ -49,9 +49,23 @@ export const usePublications = () => {
         setLoading(false)
     }
 
+    const fetchByCourse = async (name) => {
+        setLoading(true)
+        const res = await getPublicationsByCourse(name)
+        if (res.error) {
+            setError("Error al buscar publicaciones por curso")
+            toast.error("Error al buscar publicaciones por curso")
+        } else {
+            setPublications(res.data.publications)
+            toast.success("Publicaciones filtradas por curso")
+            setError(null)
+        }
+        setLoading(false)
+    }
+
     useEffect(() => {
         fetchAll()
     }, [])
 
-    return { publications, loading, error, fetchRecent, fetchAll, fetchOld }
+    return { publications, loading, error, fetchRecent, fetchAll, fetchOld, fetchByCourse }
 }
