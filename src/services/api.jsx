@@ -63,7 +63,7 @@ export const addComment = async (commentData) => {
 
 export const getCommentsByPublication = async (postId) => {
     try {
-        return await apiBlog.get(`/comment/publication/${postId}`)
+        return await apiBlog.get(`/comment/${postId}`)
     } catch (e) {
         return {
             error: true,

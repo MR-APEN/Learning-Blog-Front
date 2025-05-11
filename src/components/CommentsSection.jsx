@@ -55,7 +55,9 @@ export const CommentsSection = ({ postId }) => {
                         <ul className="space-y-2">
                             {comments.map(c => (
                                 <li key={c._id} className="border-b pb-1">
-                                    <span className="font-semibold text-gray-600">{c.name}:</span> {c.content}
+                                    <span className="font-semibold text-gray-600">{c.name}:</span>
+                                    <br />
+                                    <span className="font-semibold text-gray-600">{c.content}</span>
                                     <div className="text-xs text-gray-600">{new Date(c.date).toLocaleString()}</div>
                                 </li>
                             ))}

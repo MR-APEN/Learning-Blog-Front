@@ -64,7 +64,6 @@ export const PublicationsList = () => {
                         <p className="text-sm text-gray-500">
                             <span className="font-semibold">Curso:</span> {pub.course?.name || "Sin curso"}
                         </p>
-                        {/* Aquí se muestra la sección de comentarios */}
                         <CommentsSection postId={pub._id} />
                     </div>
                 ))}
