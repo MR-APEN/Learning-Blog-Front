@@ -4,6 +4,7 @@ import { useComments } from "../hooks/useComments"
 export const CommentsSection = ({ postId }) => {
     const { comments, loading, submitComment } = useComments(postId)
     const [showForm, setShowForm] = useState(false)
+    const [showComments, setShowComments] = useState(false)
     const [name, setName] = useState("")
     const [content, setContent] = useState("")
 
@@ -14,16 +15,25 @@ export const CommentsSection = ({ postId }) => {
             setName("")
             setContent("")
             setShowForm(false)
+            setShowComments(true) // Mostrar comentarios al agregar uno nuevo
         }
     }
 
     return (
         <div className="mt-4">
-            <button
-                className="text-2xl text-emerald-900 hover:text-emerald-700 mb-2"
-                onClick={() => setShowForm(v => !v)}
-                title="Agregar comentario"
-            >+</button>
+            <div className="flex items-center gap-2 mb-2">
+                <button
+                    className="text-2xl text-emerald-900 hover:text-emerald-700"
+                    onClick={() => setShowForm(v => !v)}
+                    title="Agregar comentario"
+                >+</button>
+                <button
+                    className="text-sm text-emerald-900 underline hover:text-emerald-700"
+                    onClick={() => setShowComments(v => !v)}
+                >
+                    {showComments ? "Ocultar comentarios" : "Ver comentarios"}
+                </button>
+            </div>
             {showForm && (
                 <form onSubmit={handleSubmit} className="mb-4 flex flex-col gap-2 text-gray-800">
                     <input
@@ -45,26 +55,28 @@ export const CommentsSection = ({ postId }) => {
                     >Comentar</button>
                 </form>
             )}
-            <div>
-                {loading ? (
-                    <div className="text-gray-500">Cargando comentarios...</div>
-                ) : (
-                    comments.length === 0 ? (
-                        <div className="text-gray-400 text-sm">Sin comentarios</div>
+            {showComments && (
+                <div>
+                    {loading ? (
+                        <div className="text-gray-500">Cargando comentarios...</div>
                     ) : (
-                        <ul className="space-y-2">
-                            {comments.map(c => (
-                                <li key={c._id} className="border-b pb-1">
-                                    <span className="font-semibold text-gray-600">{c.name}:</span>
-                                    <br />
-                                    <span className="font-semibold text-gray-600">{c.content}</span>
-                                    <div className="text-xs text-gray-600">{new Date(c.date).toLocaleString()}</div>
-                                </li>
-                            ))}
-                        </ul>
-                    )
-                )}
-            </div>
+                        comments.length === 0 ? (
+                            <div className="text-gray-400 text-sm">Sin comentarios</div>
+                        ) : (
+                            <ul className="space-y-2">
+                                {comments.map(c => (
+                                    <li key={c._id} className="border-b pb-1">
+                                        <span className="font-semibold text-gray-600">{c.name}:</span>
+                                        <br />
+                                        <span className="font-semibold text-gray-600">{c.content}</span>
+                                        <div className="text-xs text-gray-600">{new Date(c.date).toLocaleString()}</div>
+                                    </li>
+                                ))}
+                            </ul>
+                        )
+                    )}
+                </div>
+            )}
         </div>
     )
 }
